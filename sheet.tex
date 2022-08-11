@@ -13,23 +13,92 @@
 \usepackage[colorlinks,linkcolor=blue,anchorcolor=red,citecolor=green]{hyperref}
 \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
 \usepackage{tcolorbox}
-\tcbuselibrary{skins}
+	\tcbuselibrary{skins}
 % Workaround for gcd() issue in pgfplots 1.14
 % (see https://sourceforge.net/p/pgfplots/bugs/129/ and
 % https://tex.stackexchange.com/questions/328972/ )
 \usepackage{tikz}
-\makeatletter
-\let\pgfmathgcdX=\pgfmathgcd@
+	% \makeatletter
+	% \let\pgfmathgcdX=\pgfmathgcd@
 \usepackage{pgfplots}%
-\let\pgfmathgcd@=\pgfmathgcdX
-\makeatother
-\usepackage{etex}
+	\pgfplotsset{compat=1.17}
+	% \let\pgfmathgcd@=\pgfmathgcdX
+	% \makeatother
 \usepackage{fp} % 高精
-\usetikzlibrary{datavisualization}
-\usetikzlibrary{datavisualization.formats.functions}
-\usetikzlibrary{fixedpointarithmetic}
-\usetikzlibrary{math}
+	\usetikzlibrary{datavisualization}
+	\usetikzlibrary{datavisualization.formats.functions}
+	\usetikzlibrary{fixedpointarithmetic}
+	\usetikzlibrary{math}
 \FPdiv \halfpi \FPpi 2 % 高精
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+	\pushQED{\qed}
+	\normalfont \topsep6\p@\@plus6\p@\relax
+	\begin{itemize}[
+		leftmargin    = 0em,
+		itemindent    = 2em,
+		labelsep      = 1em,
+		listparindent = 2em
+	]
+		\item[\bfseries#1]
+}{
+	\popQED \end{itemize} \@endpefalse
+}
+\makeatother
+\renewcommand{\proofname}{证}
+\newenvironment{solution}{\begin{proof}[解]}{\end{proof}}
+\newenvironment{analysis}{\begin{proof}[析]\let\qed\relax}{\end{proof}}
+\newenvironment{innerprf}{\begin{proof}[析]\let\qed\relax}{\end{proof}}
+\newcounter{question}[chapter]
+\def\questionautorefname{题}
+\newenvironment{question}[3][]{
+	\begin{enumerate}[
+		labelsep=2em,
+		ref=\thequestion
+	]
+		\begin{tcolorbox}[
+			bicolor,
+			title=\textsf{#2},
+			colframe=teal,
+			colback=teal!12.5!white,
+			colbacklower=white,
+		]
+			\refstepcounter{question}
+			\item[\bfseries\thequestion.]{#1}
+				{#3}
+			\tcblower
+}{
+		\end{tcolorbox}
+	\end{enumerate}
+}
+\numberwithin{equation}{question}
+\renewcommand{\theequation}{\arabic{question}.\arabic{equation}}
+\newcommand{\source}[1]{\begin{flushright}(\textit{#1})\end{flushright}}
+\theoremstyle{definition}\newtheorem{theorem}{定理}
+\theoremstyle{definition}\newtheorem{axiom}[theorem]{公理}
+\theoremstyle{definition}\newtheorem{rules}[theorem]{规则}
+\theoremstyle{definition}\newtheorem{corollary}[theorem]{推论}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\usepackage{fancyhdr}
+\fancypagestyle{plain}
+{
+	\fancyhf{}
+	\fancyfoot[RO]{\bfseries\thepage}
+	\fancyfoot[LE]{\bfseries\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyfoot[RO]{\bfseries\thepage}
+\fancyfoot[LE]{\bfseries\thepage}
+\fancyhead[LE]{\bfseries\leftmark}
+\fancyhead[RE]{\bfseries 数学速查表\\Cheat Sheets for Math}
+\fancyhead[LO]{\bfseries 红雀\\Cardinalis}
+\fancyhead[RO]{\bfseries\rightmark}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
 \def\pitypesetter#1{%
 	\pgfmathparse{#1}%
 	\ifdim\pgfmathresult pt=0.0pt%
@@ -47,10 +116,9 @@
 		\fi%
 	\fi%
 }
-\makeatletter
 \pgfplotsset{
 	% Typeset fractions of pi at regular intervals on x axis
-	x axis in pi/.style={
+	pi denominator/.style={
 		% Make sure the x axis is in radians
 		trig format plots=rad,
 		% Set tick distance from style argument
@@ -91,169 +159,151 @@
 			}
 		},
 	},
+	pi denominator/.default=2,
+	math textstyle/.code={\everymath{\textstyle}},
 }
-\renewenvironment{proof}[1][\proofname]{\par
-	\pushQED{\qed}
-	\normalfont \topsep6\p@\@plus6\p@\relax
-	\begin{itemize}[
-		leftmargin    = 0em,
-		itemindent    = 2em,
-		labelsep      = 1em,
-		listparindent = 2em
-	]
-		\item[\bfseries#1]
-}{
-	\popQED \end{itemize} \@endpefalse
+\pgfplotsset{
+	my axis/.style={
+		baseline,
+		axis lines=middle,
+		x=1cm,
+		y=1cm,
+		xtick distance=1,
+		ytick distance=1,
+		restrict y to domain=-4:4,
+		enlargelimits={abs=0.5},
+		grid=major,
+		legend style={draw=none},
+		legend pos=outer north east,
+		axis line style={->},
+	},
 }
-\makeatother
-\renewcommand{\proofname}{证}
-\newenvironment{solution}{\begin{proof}[解]}{\end{proof}}
-\newenvironment{analysis}{\begin{proof}[析]\let\qed\relax}{\end{proof}}
-\newenvironment{innerprf}{\begin{proof}[析]\let\qed\relax}{\end{proof}}
-\newcounter{question}[chapter]
-\def\questionautorefname{题}
-\newenvironment{question}[3][]{
-	\begin{enumerate}[
-			labelsep=2em,
-			ref=\thequestion
-		]
-		\begin{tcolorbox}[
-			bicolor,
-			title=\textsf{#2},
-			colframe=teal,
-			colback=teal!12.5!white,
-			colbacklower=white,
-		]
-			\refstepcounter{question}
-			\item[\bfseries\thequestion.]{#1}
-				{#3}
-			\tcblower
-}{
-		\end{tcolorbox}
-	\end{enumerate}
+\pgfplotsset{
+	integral plot/.is family,
+	integral plot,
+	default/.style={
+		integrand/.value required,
+		integral/.value required,
+		domain=-4:4,
+		samples=33,
+		smooth=true,
+	},
+	% TODO: these keys are passed in a strange way, who can fix it?
+	integrand/.store in=\integrand,
+	integral/.store in=\integral,
+	domain/.store in=\domain,
+	samples/.store in=\samples,
+	smooth/.store in=\smooth,
+	% collect unknown keys in style 'remainingkeys':
+	.unknown/.code={%
+		\let\currname\pgfkeyscurrentname%
+		\let\currval\pgfkeyscurrentvalue%
+		\ifx#1\pgfkeysnovalue%
+			\pgfqkeys{/pgfplots}{remainingkeys/.append style/.expand once={\currname}}%
+		\else%
+			\pgfqkeys{/pgfplots}{remainingkeys/.append style/.expand twice={\expandafter\currname\expandafter=\currval}}%
+		\fi%
+	},%
 }
-\numberwithin{equation}{question}
-\renewcommand{\theequation}{\arabic{question}.\arabic{equation}}
-\newcommand{\source}[1]{\begin{flushright}(\textit{#1})\end{flushright}}
-\theoremstyle{definition}\newtheorem{theorem}{定理}
-\theoremstyle{definition}\newtheorem{axiom}[theorem]{公理}
-\theoremstyle{definition}\newtheorem{rules}[theorem]{规则}
-\theoremstyle{definition}\newtheorem{corollary}[theorem]{推论}
-\newcommand{\dd}{\ \text{d}}
-\newcommand{\axisoption}{
-	baseline,
-	axis lines=middle,
-	x=1cm,
-	y=1cm,
-	% axis equal image,
-	restrict y to domain=-5:5,
-	enlargelimits={abs=0.5},
-	grid=major,
-	legend style={draw=none},
-	legend pos=outer north east,
-	axis line style={->},
+\pgfplotsset{
+	function generated by two plot/.is family,
+	function generated by two plot,
+	default/.style={
+		first/.value required,
+		second/.value required,
+		final/.value required,
+		domain=-4:4,
+		samples=33,
+		smooth=true,
+	},
+	% TODO: these keys are passed in a strange way, who can fix it?
+	first/.store in=\first,
+	second/.store in=\second,
+	final/.store in=\final,
+	domain/.store in=\domain,
+	samples/.store in=\samples,
+	smooth/.store in=\smooth,
+	% collect unknown keys in style 'remainingkeys':
+	.unknown/.code={%
+		\let\currname\pgfkeyscurrentname%
+		\let\currval\pgfkeyscurrentvalue%
+		\ifx#1\pgfkeysnovalue%
+			\pgfqkeys{/pgfplots}{remainingkeys/.append style/.expand once={\currname}}%
+		\else%
+			\pgfqkeys{/pgfplots}{remainingkeys/.append style/.expand twice={\expandafter\currname\expandafter=\currval}}%
+		\fi%
+	},%
 }
-\newcommand{\trigonometricplotpreprocess}[2]{
-	\pgfmathsetmacro{\minpi}{round(4*#1/\FPpi)}
-	\pgfmathsetmacro{\maxpi}{round(4*#2/\FPpi)}
-	\foreach \X [count=\Y] in {\minpi,...,\maxpi} {
-		\pgfmathsetmacro{\myx}{\X*\FPpi/4}
-		\ifnum\Y=1
-			\xdef\LstX{\myx}
-		\else
-			\xdef\LstX{\LstX,\myx}
-		\fi
-	}
+\pgfplotsset{
+	regular axis/.style={
+		my axis,
+		math textstyle,
+	},
+	pi axis/.style={
+		regular axis,
+		pi denominator,
+	},
 }
-\newenvironment{regularplot}{
-	\begin{tikzpicture}
-		\everymath{\textstyle}
-		\begin{axis}[
-			\axisoption
-		]
-}{
-		\end{axis}
-		\everymath{\displaystyle}
-	\end{tikzpicture}
+\pgfplotscreateplotcyclelist{function generated by two}{
+	{magenta},{cyan},{thick}
 }
-\newenvironment{trigonometricplot}[2]{
-	\trigonometricplotpreprocess{#1}{#2}
-	\begin{tikzpicture}
-		\everymath{\textstyle}
-		\begin{axis}[
-			x axis in pi=2,
-			\axisoption
-		]
-}{
-		\end{axis}
-		\everymath{\displaystyle}
-	\end{tikzpicture}
-}
-\newcommand{\integralplot}[4]{
+\newcommand{\integralplot}[1][]{
+	\pgfqkeys{/pgfplots}{remainingkeys/.style={}} % reset remainingkeys
+	\pgfqkeys{/pgfplots/integral plot}{default, #1}
 	\addplot [
-		smooth,
-		domain=#1:#2,
-		samples=16*2+1,
+		domain=\domain,
+		samples=\samples,
+		smooth=\smooth,
+		/pgfplots/remainingkeys,
 	]
-	{#3};
+	{\integrand};
 	\addplot [
-		smooth,
+		domain=\domain,
+		samples=\samples,
+		smooth=\smooth,
 		teal,
 		thick,
-		domain=#1:#2,
-		samples=16*2+1,
+		/pgfplots/remainingkeys,
 	]
-	{#4};
+	{\integral};
 	\addplot [
-		smooth,
+		domain=\domain,
+		samples=\samples,
+		smooth=\smooth,
 		draw=none,
 		fill=teal,
 		fill opacity=.125,
-		domain=#1:#2,
-		samples=16*2+1,
+		/pgfplots/remainingkeys,
 	]
-	{#3} \closedcycle;
+	{\integrand} \closedcycle;
 }
-\newcommand{\regularintegral}[6]{
-	\begin{regularplot}{#1}{#2}
-		\integralplot{#1}{#2}{#3}{#4}
-		\legend{#5,#6};
-	\end{regularplot}
-}
-\newcommand{\trigonometricintegral}[6]{
-	\begin{trigonometricplot}{#1}{#2}
-		\integralplot{#1}{#2}{#3}{#4}
-		\legend{#5,#6};
-	\end{trigonometricplot}
-}
-\newcommand{\trigonometricintegraltworanges}[8]{
-	\begin{trigonometricplot}{#1}{#4}
-		\integralplot{#1}{#2}{#5}{#6}
-		\integralplot{#3}{#4}{#5}{#6}
-		\legend{#7,#8};
-	\end{trigonometricplot}
+\newcommand{\funcgenbytwoplot}[1][]{
+	\pgfqkeys{/pgfplots}{remainingkeys/.style={}} % reset remainingkeys
+	\pgfqkeys{/pgfplots/function generated by two plot}{default, #1}
+	\addplot+ [
+		domain=\domain,
+		samples=\samples,
+		smooth=\smooth,
+		/pgfplots/remainingkeys,
+	]
+	{\first};
+	\addplot+ [
+		domain=\domain,
+		samples=\samples,
+		smooth=\smooth,
+		/pgfplots/remainingkeys,
+	]
+	{\second};
+	\addplot+ [
+		domain=\domain,
+		samples=\samples,
+		smooth=\smooth,
+		/pgfplots/remainingkeys,
+	]
+	{\final};
 }
 
-\usepackage{fancyhdr}
-\fancypagestyle{plain}
-{
-	\fancyhf{}
-	\fancyfoot[RO]{\bfseries\thepage}
-	\fancyfoot[LE]{\bfseries\thepage}
-	\renewcommand{\headrulewidth}{0pt}
-}
-\pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
-\fancyhf{}
-\fancyfoot[RO]{\bfseries\thepage}
-\fancyfoot[LE]{\bfseries\thepage}
-\fancyhead[LE]{\bfseries\leftmark}
-\fancyhead[RE]{\bfseries 数学速查表\\Cheat Sheets for Math}
-\fancyhead[LO]{\bfseries 红雀\\Cardinalis}
-\fancyhead[RO]{\bfseries\rightmark}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0pt}
+\newcommand{\intformula}[2]{\int {#1} \dd x = {#2} + C}
 
 \everymath{\displaystyle}
 \begin{document}
@@ -293,267 +343,236 @@
 
 \section{三角函数\\Trigonometric Functions}
 
-
 \begin{question}{}
 	{
-		$\int \sin x \dd x = -\cos x + C$
+		$\intformula{\sin x}{-\cos x}$
 	}
-	\trigonometricintegral
-		{-\FPpi}{\FPpi}
-		{sin(x)}{-cos(x)}
-		{$\sin x$}{$-\cos x$}
+	\begin{tikzpicture}
+		\begin{axis}[pi axis]
+			\integralplot[%
+				integrand=sin(x),
+				integral=-cos(x),
+				domain=-\FPpi:\FPpi,
+			]
+			\legend{$\sin x$,$\cos x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \cos x \dd x = \sin x + C$
+		$\intformula{\cos x}{\sin x}$
 	}
-	\trigonometricintegral
-		{-\FPpi}{\FPpi}
-		{cos(x)}{sin(x)}
-		{$\cos x$}{$\sin x$}
+	\begin{tikzpicture}
+		\begin{axis}[pi axis]
+			\integralplot[%
+				integrand=cos(x),
+				integral=sin(x),
+				domain=-\FPpi:\FPpi,
+			]
+			\legend{$\cos x$,$\sin x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \sec^2 x \dd x = \tan x + C$
+		$\intformula{\sec^2 x}{\tan x}$
 	}
-	\begin{trigonometricplot}{-\FPpi/2}{3*\FPpi/2}
-		\addplot [
-			smooth,
-			magenta,
-			domain=-\FPpi/2:3*\FPpi/2,
-			samples=16*2+1,
+	\begin{tikzpicture}
+		\begin{axis}[pi axis,
+			cycle list name=function generated by two,
 		]
-		{cos(x)};
-		\addplot [
-			smooth,
-			cyan,
-			domain=-\FPpi/2+0.001:\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{sec(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=-\FPpi/2+0.001:\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{(sec(x))^2};
-		\addplot [
-			smooth,
-			cyan,
-			domain=\FPpi/2+0.001:3*\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{sec(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=\FPpi/2+0.001:3*\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{(sec(x))^2};
-		\legend{$\cos x$,$\sec x$,$\sec^2 x$};
-	\end{trigonometricplot}
+			\funcgenbytwoplot[%
+				first=cos(x),
+				second=sec(x),
+				final=(sec(x))^2,
+				domain=-\FPpi/2:3*\FPpi/2,
+			]
+			\legend{$\cos x$,$\sec x$,$\sec^2 x$};
+		\end{axis}
+	\end{tikzpicture}
 	\par
-	\trigonometricintegral
-		{-\FPpi/2+0.001}{\FPpi/2-0.001}
-		{(sec(x))^2}{tan(x)}
-		{$\sec^2 x$}{$\tan x$}
+	\begin{tikzpicture}
+		\begin{axis}[pi axis]
+			\integralplot[%
+				integrand=(sec(x))^2,
+				integral=tan(x),
+				domain=-\FPpi/2:\FPpi/2,
+			]
+			\legend{$\sec^2 x$,$\tan x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \csc^2 x \dd x = -\cot x + C$
+		$\intformula{\csc^2 x}{-\cot x}$
 	}
-	\begin{trigonometricplot}{-\FPpi}{\FPpi}
-		\addplot [
-			smooth,
-			magenta,
-			domain=-\FPpi:\FPpi,
-			samples=16*2+1,
+	\begin{tikzpicture}
+		\begin{axis}[pi axis,
+			cycle list name=function generated by two,
 		]
-		{sin(x)};
-		\addplot [
-			smooth,
-			cyan,
-			domain=-\FPpi+0.001:-0.001,
-			samples=16*2+1,
-		]
-		{1/sin(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=-\FPpi+0.001:-0.001,
-			samples=16*2+1,
-		]
-		{(1/sin(x))^2};
-		\addplot [
-			smooth,
-			cyan,
-			domain=0.001:\FPpi-0.001,
-			samples=16*2+1,
-		]
-		{1/sin(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=0.001:\FPpi-0.001,
-			samples=16*2+1,
-		]
-		{(1/sin(x))^2};
-		\legend{$\sin x$,$\csc x$,$\csc^2 x$};
-	\end{trigonometricplot}
+			\funcgenbytwoplot[%
+				first=sin(x),
+				second=1/sin(x),
+				final=(1/sin(x))^2,
+				domain=-\FPpi:\FPpi,
+			]
+			\legend{$\sin x$,$\csc x$,$\csc^2 x$};
+		\end{axis}
+	\end{tikzpicture}
 	\par
-	\trigonometricintegral
-		{0.001}{\FPpi-0.001}
-		{(1/sin(x))^2}{-cot(x)}
-		{$\csc^2 x$}{$-\cot x$}
+	\begin{tikzpicture}
+		\begin{axis}[pi axis]
+			\integralplot[%
+				integrand=(1/sin(x))^2,
+				integral=-cot(x),
+				domain=0:\FPpi,
+			]%
+			\legend{$\csc^2 x$,$-\cot x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \sec x \tan x \dd x = \sec x + C$
+		$\intformula{\sec x \tan x}{\sec x}$
 	}
-	\begin{trigonometricplot}{-\FPpi/2}{3*\FPpi/2}
-		\addplot [
-			smooth,
-			magenta,
-			domain=-\FPpi/2+0.001:\FPpi/2-0.001,
-			samples=16*2+1,
+	\begin{tikzpicture}
+		\begin{axis}[pi axis,
+			cycle list name=function generated by two,
 		]
-		{sec(x)};
-		\addplot [
-			smooth,
-			cyan,
-			domain=-\FPpi/2+0.001:\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{tan(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=-\FPpi/2+0.001:\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{sec(x)*tan(x)};
-		\addplot [
-			smooth,
-			magenta,
-			domain=\FPpi/2+0.001:3*\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{sec(x)};
-		\addplot [
-			smooth,
-			cyan,
-			domain=\FPpi/2+0.001:3*\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{tan(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=\FPpi/2+0.001:3*\FPpi/2-0.001,
-			samples=16*2+1,
-		]
-		{sec(x)*tan(x)};
-		\legend{$\sec x$,$\tan x$,$\sec x\tan x$};
-	\end{trigonometricplot}
+			\funcgenbytwoplot[%
+				first=sec(x),
+				second=tan(x),
+				final=sec(x)*tan(x),
+				domain=-\FPpi/2:3*\FPpi/2,
+			]
+			\legend{$\sec x$,$\tan x$,$\sec x\tan x$};
+		\end{axis}
+	\end{tikzpicture}
 	\par
-	\trigonometricintegraltworanges
-		{-\FPpi/2+0.001}{\FPpi/2-0.001}
-		{\FPpi/2+0.001}{3*\FPpi/2-0.001}
-		{sec(x)*tan(x)}{sec(x)}
-		{$\sec x\tan x$}{$\sec x$}
+	\begin{tikzpicture}
+		\begin{axis}[pi axis]
+			\integralplot[%
+				integrand=sec(x)*tan(x),
+				integral=sec(x),
+				domain=-\FPpi/2:\FPpi/2,
+			]%
+			\integralplot[%
+				integrand=sec(x)*tan(x),
+				integral=sec(x),
+				domain=\FPpi/2:3*\FPpi/2,
+			]%
+			\legend{$\sec x \tan x$,$\sec x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \csc x \cot x \dd x = -\csc x + C$
+		$\intformula{\csc x \cot x}{-\csc x}$
 	}
-	\begin{trigonometricplot}{-\FPpi}{\FPpi}
-		\addplot [
-			smooth,
-			magenta,
-			domain=-\FPpi+0.001:-0.001,
-			samples=16*2+1,
+	\begin{tikzpicture}
+		\begin{axis}[pi axis,
+			cycle list name=function generated by two,
 		]
-		{1/sin(x)};
-		\addplot [
-			smooth,
-			cyan,
-			domain=-\FPpi+0.001:-0.001,
-			samples=16*2+1,
-		]
-		{cot(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=-\FPpi+0.001:-0.001,
-			samples=16*2+1,
-		]
-		{1/sin(x)*cot(x)};
-		\addplot [
-			smooth,
-			magenta,
-			domain=0.001:\FPpi-0.001,
-			samples=16*2+1,
-		]
-		{1/sin(x)};
-		\addplot [
-			smooth,
-			cyan,
-			domain=0.001:\FPpi-0.001,
-			samples=16*2+1,
-		]
-		{cot(x)};
-		\addplot [
-			smooth,
-			thick,
-			domain=0.001:\FPpi-0.001,
-			samples=16*2+1,
-		]
-		{1/sin(x)*cot(x)};
-		\legend{$\sec x$,$\tan x$,$\sec x\tan x$};
-	\end{trigonometricplot}
+			\funcgenbytwoplot[%
+				first=1/sin(x),
+				second=cot(x),
+				final=1/sin(x)*cot(x),
+				domain=-\FPpi:\FPpi,
+			]
+			\legend{$\csc x$,$\cot x$,$\csc x\cot x$};
+		\end{axis}
+	\end{tikzpicture}
 	\par
-	\trigonometricintegraltworanges
-		{-\FPpi+0.001}{-0.001}
-		{0.001}{\FPpi-0.001}
-		{1/sin(x)*cot(x)}{-1/sin(x)}
-		{$\csc x\cot x$}{$-\csc x$}
+	\begin{tikzpicture}
+		\begin{axis}[pi axis]
+			\integralplot[%
+				integrand=1/sin(x)*cot(x),
+				integral=-1/sin(x),
+				domain=-\FPpi:0,
+			]%
+			\integralplot[%
+				integrand=1/sin(x)*cot(x),
+				integral=-1/sin(x),
+				domain=0:\FPpi,
+			]%
+			\legend{$\csc x \cot x$,$-\csc x$};
+		\end{axis}
+	\end{tikzpicture}
+\end{question}
+
+\section{反三角函数\\Inverse Trigonometric Functions}
+
+\begin{question}{}
+	{
+		$\intformula{\frac{1}{\sqrt{1-x^2}}}{\arcsin x}$
+	}
+	
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \cosh x \dd x = \sinh x + C$
+		$\intformula{\frac{1}{1+x^2}}{\arctan x}$
 	}
-	\regularintegral
-		{-5}{5}
-		{cosh(x)}{sinh(x)}
-		{$\cosh x$}{$\sinh x$}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \sinh x \dd x = \cosh x + C$
+		$\intformula{\frac{1}{x\,\sqrt{1-x^2}}}{\arcsin x}$
 	}
-	\regularintegral
-		{-5}{5}
-		{sinh(x)}{cosh(x)}
-		{$\sinh x$}{$\cosh x$}
+\end{question}
+
+\section{双曲函数\\Hyperbolic Functions}
+
+\begin{question}{}
+	{
+		$\intformula{\cosh x}{\sinh x}$
+	}
+	\begin{tikzpicture}
+		\begin{axis}[regular axis]
+			\integralplot[%
+				integrand=cosh(x),
+				integral=sinh(x),
+				restrict y to domain=-3:3,
+			]
+			\legend{$\cosh x$,$\sinh x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \begin{question}{}
 	{
-		$\int \frac{1}{\cosh^2 x} \dd x = \tanh x + C$
+		$\intformula{\sinh x}{\cosh x}$
 	}
-	\regularintegral
-		{-5}{5}
-		{1/(cosh(x))^2}{tanh(x)}
-		{$\frac{1}{\cosh^2 x}$}{$\tanh x$}
+	\begin{tikzpicture}
+		\begin{axis}[regular axis]
+			\integralplot[%
+				integrand=sinh(x),
+				integral=cosh(x),
+				restrict y to domain=-3:3,
+			]
+			\legend{$\sinh x$,$\cosh x$};
+		\end{axis}
+	\end{tikzpicture}
+\end{question}
+
+\begin{question}{}
+	{
+		$\intformula{\frac{1}{\cosh^2 x}}{\tanh x}$
+	}
+	\begin{tikzpicture}
+		\begin{axis}[regular axis]
+			\integralplot[%
+				integrand=1/(cosh(x))^2,
+				integral=tanh(x),
+			]
+			\legend{$\frac{1}{\cosh^2 x}$,$\tanh x$};
+		\end{axis}
+	\end{tikzpicture}
 \end{question}
 
 \end{document}
