@@ -122,18 +122,18 @@
 		% Make sure the x axis is in radians
 		trig format plots=rad,
 		% Set tick distance from style argument
-		xtick distance={pi/#1},
+		xtick distance={\FPpi/#1},
 		% Set label style: calculate reduced fraction of pi
 		xticklabel={
 			\tikzmath{
 				% Calculate this tick's multiple of pi/#1
-				int \numorig, \gcd, \num, \denom, \absnum;
+				int \numorig, \numgcd, \num, \denom, \absnum;
 				\numorig = round(\tick*#1/pi);
 				% Calculate reduced fraction for \numorig/#1
-				\gcd = gcd(\numorig,#1);
-				\num = \numorig / \gcd;
+				\numgcd = gcd(\numorig,#1);
+				\num = \numorig / \numgcd;
 				\absnum = abs(\num);
-				\denom = #1 / \gcd;
+				\denom = #1 / \numgcd;
 				% Build label text
 				if \num < 0 then {
 						let \sign = -;
