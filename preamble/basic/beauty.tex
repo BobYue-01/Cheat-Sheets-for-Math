@@ -1,0 +1,53 @@
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+
+\newenvironment{question}[3][]{
+	\begin{enumerate}[
+		labelsep=2em,
+		ref=\thequestion
+	]
+		\begin{tcolorbox}[
+			bicolor,
+			title=\textsf{#2},
+			colframe=teal,
+			colback=teal!12.5!white,
+			colbacklower=white,
+		]
+			\refstepcounter{question}
+			\item[\bfseries\thequestion.]{#1}
+				{#3}
+			\tcblower
+}{
+		\end{tcolorbox}
+	\end{enumerate}
+}
+
+\newenvironment{mydefs}{
+	\begin{description}
+}{
+	\end{description}
+}
+
+\newenvironment{defbox}[2]{
+	\begin{tcolorbox}[
+		bicolor,
+		title=\textbf{#1}\hfill\textbf{#2},
+		colframe=teal,
+		colback=teal!12.5!white,
+		colbacklower=white,
+	]
+}{
+	\end{tcolorbox}
+}
+
+\newcommand{\mydefboxillus}[4]{
+	\tcbsidebyside[
+		bicolor,
+		title=\textbf{#1}\hfill\textbf{#2},
+		colframe=teal,
+		colback=teal!12.5!white,
+		colbacklower=white,
+		sidebyside adapt=right,
+	]
+	{#3}{#4}
+}

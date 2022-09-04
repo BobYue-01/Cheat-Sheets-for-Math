@@ -1,0 +1,47 @@
+\usepackage{ctex}
+\setCJKmainfont{方正书宋_GBK.TTF}[BoldFont = {方正小标宋_GBK.TTF}, ItalicFont = {方正楷体_GBK.TTF}] 
+\setCJKsansfont{方正黑体_GBK.TTF}[BoldFont = {方正大黑_GBK.TTF}] 
+\setCJKmonofont{方正仿宋_GBK.TTF}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+	\pushQED{\qed}
+	\normalfont \topsep6\p@\@plus6\p@\relax
+	\begin{itemize}[
+		leftmargin    = 0em,
+		itemindent    = 2em,
+		labelsep      = 1em,
+		listparindent = 2em
+	]
+		\item[\bfseries#1]
+}{
+	\popQED \end{itemize} \@endpefalse
+}
+\makeatother
+
+\renewcommand{\proofname}{证}
+
+\newenvironment{solution}{\begin{proof}[解]}{\end{proof}}
+
+\newenvironment{analysis}{\begin{proof}[析]\let\qed\relax}{\end{proof}}
+
+\newcounter{question}[chapter]
+
+\def\questionautorefname{题}
+
+\numberwithin{equation}{question}
+
+\renewcommand{\theequation}{\arabic{question}.\arabic{equation}}
+
+\newcommand{\source}[1]{\begin{flushright}(\textit{#1})\end{flushright}}
+
+\theoremstyle{definition}\newtheorem{theorem}{定理}
+
+\theoremstyle{definition}\newtheorem{axiom}[theorem]{公理}
+
+\theoremstyle{definition}\newtheorem{rules}[theorem]{规则}
+
+\theoremstyle{definition}\newtheorem{corollary}[theorem]{推论}
