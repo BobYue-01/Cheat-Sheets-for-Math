@@ -13,3 +13,9 @@
 
 % the `such that' vertical line { x | f(x) }
 \newcommand{\relmiddle}[1]{\mathrel{}\middle#1\mathrel{}}
+
+% (forall x in A): bla bla. align `:' to center
+\newcommand{\centersymbolalign}[2]{%
+  \makebox[0.5\linewidth][r]{$\displaystyle#1$}%
+  \makebox[0.5\linewidth][l]{$\displaystyle#2$}%
+}

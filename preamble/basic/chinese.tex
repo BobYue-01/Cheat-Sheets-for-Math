@@ -1,20 +1,19 @@
-\usepackage{ctex}
-\setCJKmainfont{方正书宋_GBK.TTF}[BoldFont = {方正小标宋_GBK.TTF}, ItalicFont = {方正楷体_GBK.TTF}] 
-\setCJKsansfont{方正黑体_GBK.TTF}[BoldFont = {方正大黑_GBK.TTF}] 
-\setCJKmonofont{方正仿宋_GBK.TTF}
+\usepackage[scheme = plain, linespread = 1.3]{ctex}
+\setCJKmainfont{FZShuSong-Z01.TTF}[BoldFont={FZXiaoBiaoSong-B05.TTF},ItalicFont={FZKai-Z03.TTF}]
+\setCJKsansfont{FZHei-B01.TTF}[BoldFont={FZDaHei-B02.TTF}]
+\setCJKmonofont{FZFangSong-Z02.TTF}
 
-\usepackage{indentfirst}
-\setlength{\parindent}{2em}
+% \setlength{\parindent}{2em}
 
 \makeatletter
 \renewenvironment{proof}[1][\proofname]{\par
 	\pushQED{\qed}
 	\normalfont \topsep6\p@\@plus6\p@\relax
 	\begin{itemize}[
-		leftmargin    = 0em,
-		itemindent    = 2em,
-		labelsep      = 1em,
-		listparindent = 2em
+		leftmargin=0em,
+		itemindent=2em,
+		labelsep=1em,
+		listparindent=2em
 	]
 		\item[\bfseries#1]
 }{
