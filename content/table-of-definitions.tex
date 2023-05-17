@@ -10,7 +10,7 @@
 
 \begin{document}
 
-\chapter{定义对照 \\Table of Definitions}
+\chapter{定义表 \\Table of Definitions}
 
 % If there is any demand for sorting those items,
 % do it by an external tool.
@@ -192,5 +192,35 @@
 		\fill[color=teal,opacity=0.8] (1.5,-0.5) circle[radius=1pt];
 	\end{tikzpicture}
 }
+
+\section{概率论与数理统计 \\Probability and Statistics}
+
+\begin{defbox}{经验分布函数}{empirical distribution function}
+	对有序样本 $x_{(1)},\,x_{(2)},\,\dots,\,x_{(n)}$, 定义 $F_n(x)$ 为 $x_{(i)}\leq x$ 的个数除以 $n$.  即
+	\[
+		F_n(x)=\frac{1}{n}\sum_{i=1}^n\mathbf{1}_{\{x_{(i)}\leq x\}}.
+		\]
+\end{defbox}
+
+\begin{theorembox}{格利文科定理}{Glivenko-Cantelli Theorem}
+	设 $x_1,\,x_2,\,\dots,\,x_n$ 是独立同分布的随机变量, 其分布函数为 $F$, 则经验分布函数依概率收敛到总体分布函数.  即当 $n\to\infty$ 时, 有
+	\[
+		\sup_{x\in\mathbb{R}}|F_n(x)-F(x)|\xrightarrow{P}0.
+	\]
+	也即
+	\[
+		\lim_{n\to\infty}P\left(\sup_{x\in\mathbb{R}}|F_n(x)-F(x)|<\varepsilon\right)=1.
+	\]
+\end{theorembox}
+
+\begin{defbox}{统计量}{statistic}
+	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自某总体的样本, 若样本函数 $T=T(x_1,\,x_2,\,\dots,\,x_n)$ 不含任何未知参数, 则 $T(x_1,\,x_2,\,\dots,\,x_n)$ 称为一个\textbf{统计量}.
+\end{defbox}
+
+\begin{defbox}{抽样分布}{sampling distribution}
+	统计量的分布称为\textbf{抽样分布}.
+\end{defbox}
+
+
 
 \end{document}

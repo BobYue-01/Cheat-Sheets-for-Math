@@ -41,6 +41,18 @@
 	\end{tcolorbox}
 }
 
+\newenvironment{theorembox}[2]{
+	\begin{tcolorbox}[
+		bicolor,
+		title=\textbf{#1}\hfill\textbf{#2},
+		colframe=orange,
+		colback=orange!12.5!white,
+		colbacklower=white,
+	]
+}{
+	\end{tcolorbox}
+}
+
 \newcommand{\mydefboxillus}[4]{
 	\tcbsidebyside[
 		bicolor,
