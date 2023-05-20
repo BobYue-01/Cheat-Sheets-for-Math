@@ -29,10 +29,14 @@
 	\end{description}
 }
 
+\newcounter{definition}[section]
+\counterwithin{definition}{section}
+
 \newenvironment{defbox}[2]{
+	\stepcounter{definition}
 	\begin{tcolorbox}[
 		bicolor,
-		title=\textbf{#1}\hfill\textbf{#2},
+		title=\textbf{定义 \thedefinition #1}\hfill\textbf{#2},
 		colframe=teal,
 		colback=teal!12.5!white,
 		colbacklower=white,
@@ -41,10 +45,13 @@
 	\end{tcolorbox}
 }
 
+\counterwithin{theorem}{section}
+
 \newenvironment{theorembox}[2]{
+	\stepcounter{theorem}
 	\begin{tcolorbox}[
 		bicolor,
-		title=\textbf{#1}\hfill\textbf{#2},
+		title=\textbf{定理 \thetheorem #1}\hfill\textbf{#2},
 		colframe=orange,
 		colback=orange!12.5!white,
 		colbacklower=white,
