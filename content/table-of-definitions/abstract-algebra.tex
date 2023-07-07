@@ -1,0 +1,38 @@
+
+\section{抽象代数 \\Abstract Algebra}
+
+参考资料:
+\begin{enumerate}
+	\item \textit{Algebra Chapter 0} (2nd printing) By Paolo Aluffi.
+\end{enumerate}
+
+\begin{defbox}{binary operation}{二元运算}
+	Let $G$ be a nonempty set, endowed with a \textbf{binary operation}, that is, a `multiplication' map
+	\[
+		\circ : G \times G \to G.
+	\]
+	Our notation will be
+	\[
+		\circ (g,\,h) =: g \circ h
+	\]
+	or simply $gh$ if the name of the operation can be understood.
+\end{defbox}
+
+\begin{defbox}{group}{群}
+	The set $G$, endowed with the binary operation $\circ$ (briefly, $(G,\circ)$, or simply $G$ if the operation can be understood) is a \textbf{group} if
+	\begin{enumerate}
+		\item the operation $\circ$ is \textbf{associative}, that is,
+		\[
+			\centersymbolalign{(\forall\,g,\,h,\,k \in G):}{\quad(g \circ h) \circ k = g \circ (h \circ k);}
+		\]
+		\item there exists an \textbf{identity element} $e_G$ for $\circ$, that is,
+		\[
+			\centersymbolalign{(\exists e_G \in G)(\forall g \in G):}{\quad g \circ e_G = g = e_G \circ g;}
+		\]
+		\item every element in $G$ has an \textbf{inverse} with respect to $\circ$, that is,
+		\[
+			\centersymbolalign{(\forall g \in G)(\exists h \in G):}{\quad g \circ h = e_G = h \circ g.}
+		\]
+	\end{enumerate}
+\end{defbox}
+
