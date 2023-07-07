@@ -1,6 +1,30 @@
 \usepackage{tcolorbox}
 \tcbuselibrary{skins}
 \tcbuselibrary{xparse}
+\tcbuselibrary{theorems}
+
+\usepackage{color}
+\usepackage{xcolor}
+
+\definecolor{cyan}{rgb}{0, 1, 1}
+\definecolor{magenta}{rgb}{1, 0, 1}
+\definecolor{yellow}{rgb}{1, 1, 0}
+
+\definecolor{TheoremColor}{RGB}{183, 28, 28}
+\definecolor{TheoremBackColor}{RGB}{255, 235, 238}
+
+\definecolor{DefinitionColor}{RGB}{13, 71, 161}
+\definecolor{DefinitionBackColor}{RGB}{227, 242, 253}
+
+\newcommand{\seclan}[1]{%
+	\transparenttext{0.5}{#1}%
+}
+
+\newcommand{\transparenttext}[2]{%
+  \begin{tikzpicture}[baseline=(X.base)]
+    \node[inner sep=0pt, outer sep=0pt, text opacity=#1] (X) {#2};
+  \end{tikzpicture}%
+}
 
 \newenvironment{question}[3][]{
 	\begin{enumerate}[
@@ -46,6 +70,66 @@
 }
 
 \counterwithin{theorem}{section}
+
+\newtcbtheorem[use counter=theorem,number within=section]{newtheorembox}{定理}{
+	enhanced,
+	theorem name,
+	separator sign={\hspace{0.5em}},
+	arc=0pt,
+	boxrule=0pt, toprule=0.5pt, bottomrule=0.5pt,
+	left=4pt, right=4pt,
+	titlerule=0pt,
+	toptitle=0pt, bottomtitle=4pt, top=0pt,
+	colframe=TheoremColor, colback=TheoremBackColor!25!white, coltitle=TheoremColor,
+	title style={
+		top color=TheoremBackColor,
+		bottom color=TheoremBackColor!25!white,
+		middle color=TheoremBackColor
+	},
+	fonttitle=\bfseries\sffamily\normalsize,
+	before title={\hspace{-4pt}},
+	fontupper=\normalsize,
+	description font={\rmfamily},
+	overlay unbroken and first={%
+		\node[
+			rounded corners=1pt,
+			draw=TheoremColor,
+			line width=0.4pt,
+			fill=TheoremBackColor,
+			anchor=north east
+		] at ([xshift=-1pt]title.north west) {\bfseries\sffamily\textcolor{TheoremColor}{\thetcbcounter}};
+	}
+}{thm}
+
+\newtcbtheorem[use counter=theorem,number within=section]{newdefbox}{定义}{
+	enhanced,
+	theorem name,
+	separator sign={\hspace{0.5em}},
+	arc=0pt,
+	boxrule=0pt, toprule=0.5pt, bottomrule=0.5pt,
+	left=4pt, right=4pt,
+	titlerule=0pt,
+	toptitle=0pt, bottomtitle=4pt, top=0pt,
+	colframe=DefinitionColor, colback=DefinitionBackColor!25!white, coltitle=DefinitionColor,
+	title style={
+		top color=DefinitionBackColor,
+		bottom color=DefinitionBackColor!25!white,
+		middle color=DefinitionBackColor
+	},
+	fonttitle=\bfseries\sffamily\normalsize,
+	before title={\hspace{-4pt}},
+	fontupper=\normalsize,
+	description font={\rmfamily},
+	overlay unbroken and first={%
+		\node[
+			rounded corners=1pt,
+			draw=DefinitionColor,
+			line width=0.4pt,
+			fill=DefinitionBackColor,
+			anchor=north east
+		] at ([xshift=-1pt]title.north west) {\bfseries\sffamily\textcolor{DefinitionColor}{\thetcbcounter}};
+	}
+}{def}
 
 \newenvironment{theorembox}[2]{
 	\stepcounter{theorem}

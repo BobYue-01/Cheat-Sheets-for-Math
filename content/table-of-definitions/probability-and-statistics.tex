@@ -1,13 +1,13 @@
 \section{概率论与数理统计 \\Probability and Statistics}
 
-\begin{defbox}{经验分布函数}{empirical distribution function}
+\begin{newdefbox}{经验分布函数 \seclan{empirical distribution function}}{empirical-distribution-function}
 	对有序样本 $x_{(1)},\,x_{(2)},\,\dots,\,x_{(n)}$, 定义 $F_n(x)$ 为 $x_{(i)}\leq x$ 的个数除以 $n$.  即
 	\[
 		F_n(x)=\frac{1}{n}\sum_{i=1}^n\mathbf{1}_{\{x_{(i)}\leq x\}}.
 		\]
-\end{defbox}
+\end{newdefbox}
 
-\begin{theorembox}{格利文科定理}{Glivenko-Cantelli Theorem}
+\begin{newtheorembox}{格利文科定理 \seclan{Glivenko--Cantelli theorem}}{glivenko-cantelli}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是独立同分布的随机变量, 其分布函数为 $F$, 则经验分布函数依概率收敛到总体分布函数.  即当 $n\to\infty$ 时, 有
 	\[
 		\sup_{x\in\mathbb{R}}|F_n(x)-F(x)|\xrightarrow{P}0.
@@ -16,51 +16,51 @@
 	\[
 		\lim_{n\to\infty}P\left(\sup_{x\in\mathbb{R}}|F_n(x)-F(x)|<\varepsilon\right)=1.
 	\]
-\end{theorembox}
+\end{newtheorembox}
 
-\begin{defbox}{统计量}{statistic}
+\begin{newdefbox}{统计量 \seclan{statistic}}{statistic}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自某总体的样本, 若样本函数 $T=T(x_1,\,x_2,\,\dots,\,x_n)$ 不含任何未知参数, 则 $T(x_1,\,x_2,\,\dots,\,x_n)$ 称为一个\textbf{统计量}.
-\end{defbox}
+\end{newdefbox}
 
-\begin{defbox}{抽样分布}{sampling distribution}
+\begin{newdefbox}{抽样分布 \seclan{sampling distribution}}{sampling-distribution}
 	统计量的分布称为\textbf{抽样分布}.
-\end{defbox}
+\end{newdefbox}
 
-\begin{defbox}{样本均值}{sample mean}
+\begin{newdefbox}{样本均值 \seclan{sample mean}}{sample-mean}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自某总体的样本, 则称算术平均值
 	\[
 		\overline{x}=\frac{1}{n}\sum_{i=1}^nx_i
 	\]
 	为\textbf{样本均值}.
-\end{defbox}
+\end{newdefbox}
 
-\begin{defbox}{样本方差}{sample variance}
+\begin{newdefbox}{样本方差 \seclan{sample variance}}{sample-variance}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自某总体的样本, 则称
 	\[
 		s^2=\frac{1}{n-1}\sum_{i=1}^n(x_i-\overline{x})^2
 	\]
 	为\textbf{样本方差}.  也称 $s^2$ 为\textbf{无偏方差}.
-\end{defbox}
+\end{newdefbox}
 
-\begin{theorembox}{样本均值和方差的性质}{properties of sample mean}
+\begin{newtheorembox}{样本均值和方差的性质 \seclan{properties of sample mean}}{properties-of-sample-mean}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自总体 $X$ 的样本, $\overline{x}$ 和 $s^2$ 分别是样本均值和样本方差.  若 $E(X)=\mu$, $\Var(X)=\sigma^2$ 存在, 则
 	\begin{enumerate}
 		\item $E(\overline{x})=\mu$, $\Var(\overline{x})=\sigma^2/n$;
 		\item $E(s^2)=\sigma^2$;
 		\item $\overline{x}\dotsim N(\mu,\,\sigma^2/n)$, 即当 $n$ 充分大时, $\overline{x}$ 的分布近似于 $N(\mu,\,\sigma^2/n)$.
 	\end{enumerate}
-\end{theorembox}
+\end{newtheorembox}
 
-\begin{defbox}{次序统计量}{order statistic}
+\begin{newdefbox}{次序统计量 \seclan{order statistic}}{order-statistic}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自某总体的样本, 则称
 	\[
 		x_{(1)}\leqslant x_{(2)}\leqslant\dots\leqslant x_{(n)}
 	\]
 	为\textbf{次序统计量}.  其中 $x_{(1)}$ 称为\textbf{最小次序统计量}, $x_{(n)}$ 称为\textbf{最大次序统计量}.\par
 	注意, 次序统计量既不独立, 分布也不相同.
-\end{defbox}
+\end{newdefbox}
 
-\begin{theorembox}{次序统计量的分布}{distribution of order statistic}
+\begin{newtheorembox}{次序统计量的分布 \seclan{distribution of order statistic}}{distribution-of-order-statistic}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自总体 $X$ 的样本, 密度函数为 $f(x)$, 分布函数为 $F(x)$, $x_{(1)}\leqslant x_{(2)}\leqslant\dots\leqslant x_{(n)}$ 是其次序统计量, 则
 	\begin{enumerate}
 		\item $x_{(k)}$ 的概率密度函数为
@@ -72,9 +72,9 @@
 				f_{x_{(i)},x_{(j)}}(x,y)=\frac{n!}{(i-1)!(j-i-1)!(n-j)!}F^{i-1}(x)[F(y)-F(x)]^{j-i-1}[1-F(y)]^{n-j}f(x)f(y),\quad i<j.
 			\]
 	\end{enumerate}
-\end{theorembox}
+\end{newtheorembox}
 
-\begin{defbox}{样本分位数}{sample quantile}
+\begin{newdefbox}{样本分位数 \seclan{sample quantile}}{sample-quantile}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自某总体的样本, 则样本 $p$ 分位数
 	\[
 		m_p=\begin{cases}
@@ -83,9 +83,9 @@
 		\end{cases}
 	\]
 	其中 $[np]$ 表示不超过 $np$ 的最大整数.
-\end{defbox}
+\end{newdefbox}
 
-\begin{theorembox}{样本分位数的渐近分布}{asymptotic distribution of sample quantile}
+\begin{newtheorembox}{样本分位数的渐近分布 \seclan{asymptotic distribution of sample quantile}}{asymptotic-distribution-of-sample-quantile}
 	设总体样本 $X$ 的密度函数为 $f(x)$, $m_p$ 是其样本 $p$ 分位数, $f(x)$ 在 $x_p$ 处连续, 且 $f(x_p)>0$, 则
 	\[
 		m_p\dotsim N\left(x_p,\,\frac{p(1-p)}{nf^2(x_p)}\right).
@@ -94,12 +94,12 @@
 	\[
 		m_{0.5}\dotsim N\left(x_{0.5},\,\frac{1}{4nf^2(x_{0.5})}\right).
 	\]
-\end{theorembox}
+\end{newtheorembox}
 
-\begin{defbox}{卡方分布}{chi-square distribution}
+\begin{newdefbox}{卡方分布 \seclan{chi-square distribution}}{chi-square-distribution}
 	设 $x_1,\,x_2,\,\dots,\,x_n$ 是来自 $N(0,\,1)$ 的样本, 则称
 	\[
 		\chi^2=x_1^2+x_2^2+\dots+x_n^2
 	\]
 	服从自由度为 $n$ 的\textbf{卡方分布}, 记为 $\chi^2\sim\chi^2(n)$.
-\end{defbox}
+\end{newdefbox}
